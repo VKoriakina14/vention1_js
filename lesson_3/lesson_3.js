@@ -363,8 +363,11 @@ Example: [1, 2, 3] should return [1, 4, 9]
 
 // Your solution here
 const multiplyByIndex = (arr) => {
-    // Write your code here
+    return arr.map((element, index) => {
+        return element * (index + 1);
+    });
 };
+console.log(multiplyByIndex([1, 2, 3]))
 
 /* Task 2: Object Transformation
 Create a function that takes an object of student scores
@@ -375,10 +378,19 @@ Example: { John: 80, Jane: 45 } should return { John: 'pass', Jane: 'fail' }
 
 // Your solution here
 const getPassFail = (scores) => {
-    // Write your code here
+    return Object.entries(scores).map(([key, value]) => {
+        if(value >= 60) {
+            return [key, 'pass'];
+        } else {
+            return [key, 'fail'];
+        }
+    });
 };
+let obj = { John: 80, Jane: 45 };
+let newObj = Object.fromEntries(getPassFail(obj));
+console.log(newObj);
 
-
+/*---------------------------------------------------*/
 
 const convertToCelsius = function (temp) {
     return (temp - 32)*5/9 ;

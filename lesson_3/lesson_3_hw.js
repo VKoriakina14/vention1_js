@@ -8,15 +8,12 @@ However, years divisible by 100 are not leap years (such as 1800 and 1900) unles
 Hints
 use an if statement and && to make sure all the conditions are met properly*/
 
-const leapYears = function() {
-
-};
-leapYears(2000) // is a leap year: returns true
-leapYears(1985) // is not a leap year: returns false
-
-
-
-
+const leapYears = (year) => (year % 400 === 0) || (year % 4 === 0 && year % 100 !== 0);
+console.log(leapYears(2000)); // true
+console.log(leapYears(1985)); // false
+console.log(leapYears(1900)); // false
+console.log(leapYears(1600)); // true
+console.log(leapYears(2024)); // true
 
 /* ------ Exercise 2 - Fibonacci
 Create a function that returns a specific member of the Fibonacci sequence:
@@ -26,15 +23,14 @@ is the sum of the two preceding numbers. In this exercise,
 the Fibonacci sequence used is 1, 1, 2, 3, 5, 8, etc. 
 To learn more about Fibonacci sequences, go to: https://en.wikipedia.org/wiki/Fibonacci_sequence */
 
-
-const fibonacci = function() {
-
+const fibonacci = function(n) {
+  if (n <= 0) return 0;
+  if (n === 1 || n === 2) return 1;
+  return fibonacci(n - 1) + fibonacci(n - 2);
 };
-
-fibonacci(4); // returns the 4th member of the series: 3  (1, 1, 2, 3)
-fibonacci(6); // returns 8
-
-
+console.log(fibonacci(4));
+console.log(fibonacci(6));
+console.log(fibonacci(10));
 
 /* ------ Exercise 3 - Filter Sting. Arrays
 Create a function that takes a list of non-negative integers and strings
@@ -47,7 +43,8 @@ filter_list([1,'a','b',0,15]) == [1,0,15]
 filter_list([1,2,'aasf','1','123',123]) == [1,2,123]
  */
 
-
+const filterList = (arr) => arr.filter(element => typeof element === 'number');
+console.log(filterList([1, 2, 'a', 'b'])); // [1, 2]
 
 /* ------ Exercise 4 - Positive Sum. Arrays
 You get an array of numbers, return the sum of all of the positives ones.
@@ -57,8 +54,8 @@ Example [1,-4,7,12] => 1 + 7 + 12 = 20
 Note: if there is nothing to sum, the sum is default to 0.
  */
 
-
-
+const sumOfPositiveValues = (arr) => arr.reduce((sum, num) => num > 0 ? sum + num : sum, 0);
+console.log(sumOfPositiveValues([1, -4, 7, 12]));
 
 /*  ------ Exercise 5 - Abbreviate. Strings
 
@@ -73,6 +70,11 @@ Sam Harris => S.H
 patrick feeney => P.F
  */
 
+const transformFullNameToInitials = function(fullName) {
+ return fullName.split(" ").map((element) => {return element.charAt(0).concat(".")}).join(" ");
+}
+let str = transformFullNameToInitials("Sam Harris");
+console.log(str);
 
 /* ----- Exercise 06 - Reverse a String
 Pretty simple, write a function called reverseString that returns its input, reversed!
@@ -82,11 +84,11 @@ Hints
 Strings in JavaScript cannot be reversed directly so you're going to have to split it into something else first.. 
 do the reversal and then join it back together into a string.*/
 
-const reverseString = function() {
-
+const reverseString = function(myString) {
+ return myString.split("").reverse().join("");
 };
-
-reverseString('hello there') // returns 'ereht olleh'
+let newString = reverseString('hello there');
+console.log(newString); // returns 'ereht olleh'
 
 
 /* Exercise 07 - removeFromArray
@@ -100,13 +102,11 @@ you can manipulate the original array you pass into the function call or create 
 how to remove a single element from an array
 how to deal with multiple optional arguments in a javascript function
 For more information, check out MDN's page on function arguments - scroll down to the bit about Array.from or the spread operator. You can also check out MDN's page on rest parameters. */
-const removeFromArray = function() {
-
+const removeFromArray = function(array, number) {
+ return array.filter((element) => element !== number);
 };
-
-removeFromArray([1, 2, 3, 4], 3); // should remove 3 and return [1,2,4]
-
-
+let newArray = removeFromArray([1, 2, 3, 4], 3);
+console.log(newArray);
 
 /* Task 08: Array Methods
 Create a function that takes an array of numbers and returns a new array
@@ -116,8 +116,11 @@ Example: [1, 2, 3] should return [1, 4, 9]
 
 // Your solution here
 const multiplyByIndex = (arr) => {
-    // Write your code here
+    return arr.map((element, index) => {
+        return element * (index + 1);
+    });
 };
+console.log(multiplyByIndex([1, 2, 3]))
 
 /* Task 09: Object Transformation
 Create a function that takes an object of student scores
@@ -128,5 +131,15 @@ Example: { John: 80, Jane: 45 } should return { John: 'pass', Jane: 'fail' }
 
 // Your solution here
 const getPassFail = (scores) => {
-    // Write your code here
+    let newObjArr = Object.entries(scores).map(([key, value]) => {
+        if(value >= 60) {
+            return [key, 'pass'];
+        } else {
+            return [key, 'fail'];
+        }
+    });
+    return Object.fromEntries(newObjArr);
 };
+let obj = { John: 80, Jane: 45 };
+let newObj = getPassFail(obj);
+console.log(newObj);
